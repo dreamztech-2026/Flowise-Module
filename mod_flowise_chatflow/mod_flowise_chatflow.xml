@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="4.0" client="site" method="upgrade">
+	<name>MOD_FLOWISE_CHATFLOW</name>
+	<author>Flowise Module</author>
+	<creationDate>November 2025</creationDate>
+	<copyright>2025 Flowise</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<authorEmail>admin@example.com</authorEmail>
+	<authorUrl>https://github.com/dreamztech-2026/Flowise-Module</authorUrl>
+	<version>1.0.0</version>
+	<description>MOD_FLOWISE_CHATFLOW_DESC</description>
+	
+	<files>
+		<filename module="mod_flowise_chatflow">mod_flowise_chatflow.php</filename>
+		<folder>tmpl</folder>
+		<folder>language</folder>
+		<filename>helper.php</filename>
+	</files>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic" label="MOD_FLOWISE_CHATFLOW_SETTINGS">
+				<field
+					name="flowise_url"
+					type="url"
+					label="MOD_FLOWISE_CHATFLOW_URL_LABEL"
+					description="MOD_FLOWISE_CHATFLOW_URL_DESC"
+					placeholder="https://example.com"
+					required="true"
+				/>
+				<field
+					name="chatflow_id"
+					type="text"
+					label="MOD_FLOWISE_CHATFLOW_ID_LABEL"
+					description="MOD_FLOWISE_CHATFLOW_ID_DESC"
+					placeholder="Enter your chatflow ID"
+					required="true"
+				/>
+				<field
+					name="chatbot_height"
+					type="text"
+					label="MOD_FLOWISE_CHATFLOW_HEIGHT_LABEL"
+					description="MOD_FLOWISE_CHATFLOW_HEIGHT_DESC"
+					default="600"
+					placeholder="600"
+				/>
+				<field
+					name="chatbot_width"
+					type="text"
+					label="MOD_FLOWISE_CHATFLOW_WIDTH_LABEL"
+					description="MOD_FLOWISE_CHATFLOW_WIDTH_DESC"
+					default="100%"
+					placeholder="100%"
+				/>
+				<field
+					name="theme"
+					type="list"
+					label="MOD_FLOWISE_CHATFLOW_THEME_LABEL"
+					description="MOD_FLOWISE_CHATFLOW_THEME_DESC"
+					default="light"
+				>
+					<option value="light">MOD_FLOWISE_CHATFLOW_THEME_LIGHT</option>
+					<option value="dark">MOD_FLOWISE_CHATFLOW_THEME_DARK</option>
+				</field>
+				<field
+					name="show_fullscreen_button"
+					type="radio"
+					label="MOD_FLOWISE_CHATFLOW_FULLSCREEN_LABEL"
+					description="MOD_FLOWISE_CHATFLOW_FULLSCREEN_DESC"
+					default="1"
+					layout="joomla.form.renderinput.radio.switcher"
+				>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+
+			<fieldset name="advanced" label="JADVANCED">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				/>
+				<field
+					name="moduleclass_sfx"
+					type="textarea"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
+					cols="40"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
