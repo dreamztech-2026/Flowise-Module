@@ -135,4 +135,106 @@ EOD;
 
 		return $script;
 	}
+
+	/**
+	 * Generate the JavaScript code to initialize the livechat widget
+	 *
+	 * @param array $config Configuration array
+	 * @return string JavaScript code
+	 */
+	public static function getInitLivechatScript($config)
+	{
+		if ($config === false)
+		{
+			return '';
+		}
+
+		$containerId = 'flowise-livechat-' . md5(json_encode($config));
+		$flowise_url = $config['flowise_url'];
+		$chatflow_id = $config['chatflow_id'];
+		$theme = $config['theme'];
+
+		$script = <<<EOD
+(function() {
+	// Wait for DOM to be ready
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initFlowiseLivechat);
+	} else {
+		initFlowiseLivechat();
+	}
+
+	function initFlowiseLivechat() {
+		var container = document.getElementById('$containerId');
+		var bodyDiv = container.querySelector('.flowise-livechat-body');
+		if (!container || !bodyDiv) return;
+
+		// Create iframe element
+		var iframe = document.createElement('iframe');
+		iframe.src = '$flowise_url/iframe/$chatflow_id';
+		iframe.style.width = '100%';
+		iframe.style.height = '100%';
+		iframe.style.border = 'none';
+		iframe.frameBorder = '0';
+		iframe.allow = 'microphone; camera';
+		
+		// Clear and append iframe to body
+		bodyDiv.innerHTML = '';
+		bodyDiv.appendChild(iframe);
+
+		// Add CSS class for theming
+		container.classList.add('flowise-theme-' + '$theme');
+
+		// Setup event listeners
+		setupLivechatControls(container);
+	}
+
+	function setupLivechatControls(container) {
+		var minimizeBtn = container.querySelector('.minimize-btn');
+		var closeBtn = container.querySelector('.close-btn');
+		var isMinimized = false;
+
+		// Minimize button handler
+		if (minimizeBtn) {
+			minimizeBtn.addEventListener('click', function(e) {
+				e.stopPropagation();
+				isMinimized = !isMinimized;
+				
+				if (isMinimized) {
+					container.classList.add('minimized');
+					minimizeBtn.textContent = '+';
+					minimizeBtn.setAttribute('title', 'Expand');
+				} else {
+					container.classList.remove('minimized');
+					minimizeBtn.textContent = '−';
+					minimizeBtn.setAttribute('title', 'Minimize');
+				}
+			});
+		}
+
+		// Close button handler
+		if (closeBtn) {
+			closeBtn.addEventListener('click', function(e) {
+				e.stopPropagation();
+				container.style.display = 'none';
+			});
+		}
+
+		// Restore on header click when minimized
+		var header = container.querySelector('.flowise-livechat-header');
+		if (header) {
+			header.addEventListener('click', function() {
+				if (isMinimized) {
+					container.classList.remove('minimized');
+					minimizeBtn.textContent = '−';
+					minimizeBtn.setAttribute('title', 'Minimize');
+					isMinimized = false;
+				}
+			});
+		}
+	}
+})();
+EOD;
+
+		return $script;
+	}
 }
